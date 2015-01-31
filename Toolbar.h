@@ -35,10 +35,11 @@ private:
   void SetupLayout();
   class QVBoxLayout* mainLayout;
 
-  // Buttons to add rectangles
+  // Buttons to add/delete rectangles
   void SetupButtons();
   class QPushButton* addRectangleButton;
   class QPushButton* addMultiRectangleButton;
+  class QPushButton* deleteRectangleButton;
 
   // Save Button
   class QPushButton* saveButton;

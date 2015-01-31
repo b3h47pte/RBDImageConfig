@@ -37,6 +37,7 @@ SetupLayout() {
   mainLayout = new QVBoxLayout();
   mainLayout->addWidget(addRectangleButton);
   mainLayout->addWidget(addMultiRectangleButton);
+  mainLayout->addWidget(deleteRectangleButton);
   mainLayout->addWidget(saveButton);
   mainLayout->addWidget(propertyList);
   setLayout(mainLayout);
@@ -47,6 +48,8 @@ SetupButtons() {
   addRectangleButton = new QPushButton(tr("Add Rectangle"));
 
   addMultiRectangleButton = new QPushButton(tr("Add Multi-Rectangle"));
+
+  deleteRectangleButton = new QPushButton(tr("Delete Rectangle"));
 
   saveButton = new QPushButton(tr("Save Configuration"));
 }
@@ -96,6 +99,7 @@ AddConfiguration(const std::string& configuration) {
 void Toolbar::
 SetCurrentConfiguration(Rectangle* rectangle) {
   std::string property = GetCurrentProperty();
+  delete configMapping[property];
   configMapping[property] = rectangle;
   UpdateConfigurationEditor();
 }

@@ -18,6 +18,7 @@ private slots:
 
   void AddRectangle();
   void AddMultiRectangle();
+  void DeleteRectangle();
 
   void ChangeSelectedProperty(class QListWidgetItem* item);
 

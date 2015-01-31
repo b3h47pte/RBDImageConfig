@@ -229,6 +229,7 @@ GenerateToolbar() {
   sideToolbar = new Toolbar(this); 
   connect(sideToolbar->addRectangleButton, SIGNAL(clicked()), this, SLOT(AddRectangle()));
   connect(sideToolbar->addMultiRectangleButton, SIGNAL(clicked()), this, SLOT(AddMultiRectangle()));
+  connect(sideToolbar->deleteRectangleButton, SIGNAL(clicked()), this, SLOT(DeleteRectangle()));
   connect(sideToolbar->saveButton, SIGNAL(clicked()), this, SLOT(SaveConfigurationDialog()));
   connect(sideToolbar->propertyList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(ChangeSelectedProperty(QListWidgetItem*)));
   connect(sideToolbar, &Toolbar::UpdateConfigurationProperty, this, &MainWindow::UpdateConfigurationDisplay);
@@ -252,6 +253,13 @@ AddMultiRectangle() {
   if(createRectangle) return;
   statusBar()->showMessage("Adding Multi-Rectangle...");
   createMultiRectangle = true;
+}
+
+void MainWindow::
+DeleteRectangle() {
+  if(createMultiRectangle || createRectangle) return;
+  sideToolbar->SetCurrentConfiguration(NULL);
+  UpdateConfigurationDisplay();
 }
 
 QPointF MainWindow::
