@@ -113,7 +113,6 @@ OpenImage(const QString& imagePath) {
   imageItem = new QGraphicsPixmapItem(pixmap);
   imageScene->addItem(imageItem);
   imageView->setScene(imageScene);
-  imageView->resize(pixmap.size());
 }
 
 
