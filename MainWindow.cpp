@@ -148,8 +148,13 @@ OpenConfigurationDialog() {
 }
 
 void MainWindow::
-SaveConfigurationDialog() {
-  if (currentConfigurationPath.isEmpty()) {
+SaveAsConfigurationDialog() {
+  SaveConfigurationDialog(true);
+}
+
+void MainWindow::
+SaveConfigurationDialog(bool forceShow) {
+  if (currentConfigurationPath.isEmpty() || forceShow) {
     QString configurationPath = QFileDialog::getSaveFileName(this, tr("Save Configuration"), QDir::currentPath());
     if(configurationPath.isEmpty()) {
       return;
@@ -208,6 +213,9 @@ GenerateMenuActions() {
   saveConfigAction->setShortcut(tr("Ctrl+S"));
   connect(saveConfigAction, SIGNAL(triggered()), this, SLOT(SaveConfigurationDialog()));
 
+  saveAsConfigAction = new QAction(tr("Save As Config"), this);
+  connect(saveAsConfigAction, SIGNAL(triggered()), this, SLOT(SaveAsConfigurationDialog()));
+
   openPropertiesAction = new QAction(tr("Open &Properties"), this);
   connect(openPropertiesAction, SIGNAL(triggered()), this, SLOT(OpenPropertiesDialog()));
 }
@@ -219,6 +227,7 @@ GenerateMenu() {
   mainMenu->addAction(openAction);
   mainMenu->addAction(openConfigAction);
   mainMenu->addAction(saveConfigAction);
+  mainMenu->addAction(saveAsConfigAction);
   mainMenu->addAction(openPropertiesAction);
 
   menuBar()->addMenu(mainMenu);

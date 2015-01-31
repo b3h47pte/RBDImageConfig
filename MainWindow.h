@@ -14,7 +14,8 @@ private slots:
   void OpenImageDialog();
   void OpenPropertiesDialog();
   void OpenConfigurationDialog();
-  void SaveConfigurationDialog();
+  void SaveConfigurationDialog(bool forceShow = false);
+  void SaveAsConfigurationDialog();
 
   void AddRectangle();
   void AddMultiRectangle();
@@ -53,6 +54,7 @@ private:
   QString currentConfigurationPath;
   class QAction* openConfigAction;
   class QAction* saveConfigAction;
+  class QAction* saveAsConfigAction;
   void LoadConfiguration(const QString& configurationPath);
   void SaveConfiguration();
 
