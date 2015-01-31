@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <assert.h>
 
 class Rectangle {
@@ -32,6 +33,17 @@ public:
       y += height;
       height *= -1;
     }
+
+    if (x < 0.0) {
+      width -= fabs(x);
+      x = 0.0;
+    }
+
+    if(y < 0.0) {
+      height -= fabs(y);
+      y = 0.0;
+    }
+
   }
 
   virtual QRectF ToQRectF(int index = 0) const {
@@ -46,14 +58,14 @@ public:
   }
 
   virtual void FromSplitString(std::vector<std::string>& parts) {
-    assert(parts.size() == 4);
+    assert(parts.size() >= 4);
     try {
       x = std::stod(parts[0]);
       y = std::stod(parts[1]);
       width = std::stod(parts[2]);
       height = std::stod(parts[3]);
     } catch (...) {
-      qDebug() << "Error: Creating a rectangle with more than 4 elements";
+      qDebug() << "Error: Creating a rectangle";
     } 
   }
 

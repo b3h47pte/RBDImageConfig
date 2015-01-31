@@ -69,15 +69,19 @@ LoadProgramSettings() {
     OpenImage(QString::fromStdString(imagePath));
   }
 
+  std::string propertiesPath;
+  if(settings->GetSetting(Settings::ES_PROPERTIES, propertiesPath)) {
+    LoadProperties(QString::fromStdString(propertiesPath));  
+  }
+
+  // MUST LOAD CONFIGURATION AFTER PROPERTIES.
+  // Otherwise we won't know which properties are valid when loading the configuration.
   std::string configPath;
   if(settings->GetSetting(Settings::ES_CONFIG, configPath)) {
     LoadConfiguration(QString::fromStdString(configPath));
   }
 
-  std::string propertiesPath;
-  if(settings->GetSetting(Settings::ES_PROPERTIES, propertiesPath)) {
-    LoadProperties(QString::fromStdString(propertiesPath));  
-  }
+  UpdateConfigurationDisplay();
 }
 
 void MainWindow::
@@ -302,6 +306,7 @@ FinializeRectangle(const QPointF& p) {
 
 void MainWindow::
 ChangeSelectedProperty(QListWidgetItem* item) {
+  (void)item;
   UpdateConfigurationDisplay();
 }
 

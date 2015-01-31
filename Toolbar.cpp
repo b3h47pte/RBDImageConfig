@@ -83,6 +83,7 @@ AddConfiguration(const std::string& configuration) {
     return;
   }
   newRect->FromSplitString(rectangleSections);
+  configMapping[property] = newRect;
 }
 
 void Toolbar::

@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef __MAINWINDOW_H
+#define __MAINWINDOW_H
 
 #include <QMainWindow>
 
@@ -75,4 +75,4 @@ private:
   class Rectangle* newRectangle;
 };
 
-#endif // MAINWINDOW_H
+#endif // __MAINWINDOW_H

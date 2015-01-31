@@ -20,14 +20,15 @@ public:
   }
 
   virtual void FromSplitString(std::vector<std::string>& parts) {
-    assert(parts.size() == 4);
+    assert(parts.size() >= 8);
     try {
-      x = std::stod(parts[0]);
-      y = std::stod(parts[1]);
-      width = std::stod(parts[2]);
-      height = std::stod(parts[3]);
+      Rectangle::FromSplitString(parts);
+      xStep = std::stod(parts[4]);
+      yStep = std::stod(parts[5]);
+      totalRectangles = std::stoi(parts[6]);
+      rowSize = std::stoi(parts[7]);
     } catch (...) {
-      qDebug() << "Error: Creating a rectangle with more than 4 elements";
+      qDebug() << "Error: Creating a multi-rectangle.";
     } 
   }
 
