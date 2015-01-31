@@ -181,6 +181,7 @@ LoadConfiguration(const QString& configurationPath) {
     if(line == "[Default]") continue;
     sideToolbar->AddConfiguration(line);
   }
+  sideToolbar->UpdateConfigurationEditor();
 }
 
 void MainWindow::
@@ -230,6 +231,7 @@ GenerateToolbar() {
   connect(sideToolbar->addMultiRectangleButton, SIGNAL(clicked()), this, SLOT(AddMultiRectangle()));
   connect(sideToolbar->saveButton, SIGNAL(clicked()), this, SLOT(SaveConfigurationDialog()));
   connect(sideToolbar->propertyList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(ChangeSelectedProperty(QListWidgetItem*)));
+  connect(sideToolbar, &Toolbar::UpdateConfigurationProperty, this, &MainWindow::UpdateConfigurationDisplay);
 
   toolbarDock = new QDockWidget(tr("Toolbar"), this);
   toolbarDock->setWidget(sideToolbar);
@@ -279,6 +281,10 @@ CreateInitialRectangle(const QPointF& p) {
   }
   else if (createMultiRectangle) {
     newRectangle = new MultiRectangle();
+    static_cast<MultiRectangle*>(newRectangle)->SetTotalRectangles(1);
+    static_cast<MultiRectangle*>(newRectangle)->SetRowSize(1);
+    static_cast<MultiRectangle*>(newRectangle)->SetXStep(0);
+    static_cast<MultiRectangle*>(newRectangle)->SetYStep(0);
   }
   newRectangle->SetX(p.x());
   newRectangle->SetY(p.y());
@@ -326,7 +332,16 @@ UpdateConfigurationDisplay() {
     if (it->first == sideToolbar->GetCurrentProperty()) {
       color = QColor(255, 0, 0);
     }
-    QGraphicsRectItem* rectItem = imageScene->addRect(rect->ToQRectF(), QPen(color));
-    imageRectangles.push_back(rectItem);
+
+    if(!rect->CanContainMultipleRectangles()) {
+      QGraphicsRectItem* rectItem = imageScene->addRect(rect->ToQRectF(), QPen(color));
+      imageRectangles.push_back(rectItem);
+    } else {
+      MultiRectangle* multiRect = static_cast<MultiRectangle*>(rect);
+      for(int i = 0; i < multiRect->GetTotalRectangles(); ++i) {
+        QGraphicsRectItem* rectItem = imageScene->addRect(multiRect->ToQRectF(i), QPen(color));
+        imageRectangles.push_back(rectItem);
+      }
+    }
   }
 }

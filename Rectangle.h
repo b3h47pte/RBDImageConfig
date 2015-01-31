@@ -21,7 +21,10 @@ public:
   virtual qreal GetY() const { return y;}
 
   virtual void SetWidth(qreal w) { width = w; };
+  virtual qreal GetWidth() const { return width; }
+
   virtual void SetHeight(qreal h) {height = h; };
+  virtual qreal GetHeight() const { return height; }
 
   virtual void Normalize() {
     if(width < 0) {
@@ -43,8 +46,7 @@ public:
       height -= fabs(y);
       y = 0.0;
     }
-
-  }
+}
 
   virtual QRectF ToQRectF(int index = 0) const {
     (void)index;
@@ -68,6 +70,8 @@ public:
       qDebug() << "Error: Creating a rectangle";
     } 
   }
+
+  virtual bool CanContainMultipleRectangles() const { return false; }
 
 protected:
   qreal x;

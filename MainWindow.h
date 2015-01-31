@@ -25,6 +25,7 @@ protected:
   void closeEvent(class QCloseEvent* e);
   void mousePressEvent(class QMouseEvent* e);
   void mouseReleaseEvent(class QMouseEvent* e);
+
 private:
   // Program Settings 
   class Settings* settings;

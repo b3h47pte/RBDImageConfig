@@ -10,7 +10,7 @@ public:
     assert(index < totalRectangles);
     int xIdx = index % rowSize;
     int yIdx = index / rowSize;
-    return QRectF(x, y, width + xIdx * xStep, height + yIdx * yStep);
+    return QRectF(x + xIdx * xStep, y + yIdx * yStep, width, height);
   }
 
   virtual std::string ToString() const {
@@ -31,6 +31,20 @@ public:
       qDebug() << "Error: Creating a multi-rectangle.";
     } 
   }
+
+  virtual bool CanContainMultipleRectangles() const { return true; }
+
+  virtual void SetXStep(qreal inStep) { xStep = inStep; }
+  virtual qreal GetXStep() const { return xStep; }
+
+  virtual void SetYStep(qreal inStep) { yStep = inStep; }
+  virtual qreal GetYStep() const { return yStep; }
+
+  virtual void SetTotalRectangles(int total) { totalRectangles = total; }
+  virtual int GetTotalRectangles() const { return totalRectangles; }
+  
+  virtual void SetRowSize(int size) { rowSize = size; }
+  virtual int GetRowSize() const { return rowSize; }
 
 protected:
   qreal xStep;
