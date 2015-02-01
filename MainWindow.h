@@ -23,10 +23,11 @@ private slots:
 
   void ChangeSelectedProperty(class QListWidgetItem* item);
 
+  void NotifyImageMousePress(class QGraphicsSceneMouseEvent* e);
+  void NotifyImageMouseRelease(class QGraphicsSceneMouseEvent* e);
+
 protected:
   void closeEvent(class QCloseEvent* e);
-  void mousePressEvent(class QMouseEvent* e);
-  void mouseReleaseEvent(class QMouseEvent* e);
 
 private:
   // Program Settings 
@@ -43,7 +44,6 @@ private:
   QString currentImagePath;
   class QAction* openAction;
   void OpenImage(const QString& imagePath);
-  QPointF GetAdjustedPosition(const QPointF& point);
 
   // Load Properties File
   QString currentPropertiesPath;
@@ -61,8 +61,8 @@ private:
   // Left Side (Image Display)
   void GenerateImageDisplay();
   void UpdateConfigurationDisplay();
-  class ImageView* imageView;
-  class QGraphicsScene* imageScene;
+  class QGraphicsView* imageView;
+  class ImageScene* imageScene;
   class QGraphicsPixmapItem* imageItem;
   std::vector<class QGraphicsRectItem*> imageRectangles;
 

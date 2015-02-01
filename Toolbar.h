@@ -11,7 +11,7 @@ class Toolbar : public QWidget
   Q_OBJECT
 public:
   explicit Toolbar(QWidget *parent = 0);
-  ~Toolbar();
+  virtual ~Toolbar();
 
   void AddProperty(const std::string& property);
   void ClearProperties();

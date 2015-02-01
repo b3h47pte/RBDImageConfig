@@ -16,12 +16,12 @@ SOURCES += main.cpp\
         MainWindow.cpp \
     Toolbar.cpp \
     Settings.cpp \
-    ImageView.cpp
+    ImageScene.cpp
 
 HEADERS  += MainWindow.h \
     Toolbar.h \
     Settings.h \
     Rectangle.h \
-    ImageView.h \
     MultiRectangle.h \
-    StringUtility.h
+    StringUtility.h \
+    ImageScene.h

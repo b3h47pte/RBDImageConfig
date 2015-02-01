@@ -18,14 +18,16 @@
 #include <QVBoxLayout>
 #include <QDockWidget>
 #include <QPushButton>
+#include <QGraphicsView>
 #include <QEvent>
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QStatusBar>
 #include <QPointF>
+#include <QGraphicsSceneMouseEvent>
 #include "Toolbar.h"
 #include "Settings.h"
-#include "ImageView.h"
+#include "ImageScene.h"
 #include "Rectangle.h"
 #include "MultiRectangle.h"
 #include <fstream>
@@ -190,13 +192,28 @@ LoadConfiguration(const QString& configurationPath) {
 
 void MainWindow::
 GenerateImageDisplay() {
-  imageView = new ImageView();
+  imageView = new QGraphicsView();
   imageView->setBackgroundRole(QPalette::Dark);
   imageView->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
   imageView->setDragMode(QGraphicsView::RubberBandDrag);
 
-  imageScene = new QGraphicsScene();
+  imageScene = new ImageScene();
+  connect(imageScene, &ImageScene::NotifyMousePress, this, &MainWindow::NotifyImageMousePress);
+  connect(imageScene, &ImageScene::NotifyMouseRelease, this, &MainWindow::NotifyImageMouseRelease);
+
   setCentralWidget(imageView);
+}
+
+void MainWindow::
+NotifyImageMousePress(QGraphicsSceneMouseEvent* e) {
+  if(!createRectangle && !createMultiRectangle) return;
+  CreateInitialRectangle(e->scenePos());
+}
+
+void MainWindow::
+NotifyImageMouseRelease(QGraphicsSceneMouseEvent* e) {
+  if(!createRectangle && !createMultiRectangle) return;
+  FinializeRectangle(e->scenePos());
 }
 
 void MainWindow::
@@ -268,26 +285,6 @@ DeleteRectangle() {
   if(createMultiRectangle || createRectangle) return;
   sideToolbar->SetCurrentConfiguration(NULL);
   UpdateConfigurationDisplay();
-}
-
-QPointF MainWindow::
-GetAdjustedPosition(const QPointF& point) {
-  QPointF p = point;
-  p.rx() += imageView->horizontalScrollBar()->value();
-  p.ry() += imageView->verticalScrollBar()->value();
-  return p;
-}
-
-void MainWindow::
-mousePressEvent(class QMouseEvent* e) {
-  if(!createRectangle && !createMultiRectangle) return;
-  CreateInitialRectangle(GetAdjustedPosition(e->localPos()));
-}
-
-void MainWindow::
-mouseReleaseEvent(class QMouseEvent* e) {
-  if(!createRectangle && !createMultiRectangle) return;
-  FinializeRectangle(GetAdjustedPosition(e->localPos()));
 }
 
 void MainWindow::
